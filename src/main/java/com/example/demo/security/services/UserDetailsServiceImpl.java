@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.security.model.UsuarioModel;
 import com.example.demo.security.model.UsuarioPrincipalModel;
 
+//Convierte la clase Usuario en Usuario Principal.
+//Media entre la clase Usuario y Usuario Principal.
+//Es la clase de SpringSecurity especifica
+//Para obtener los datos del usuario y sus privilegios
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
