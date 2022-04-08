@@ -93,19 +93,27 @@ public class AuthController {
 			return new ResponseEntity(new MensajeDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 		
-		Authentication authentication = authenticationManager.authenticate(
-							new UsernamePasswordAuthenticationToken(
-														loginUsuarioDTO.getNombreUsuario(), 
-														loginUsuarioDTO.getPassword()
-														)
-				);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtProvider.generateToken(authentication);
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		if(!(usuarioService.existsByNombreUsuario(loginUsuarioDTO.getNombreUsuario()))) {
+			return new ResponseEntity(new MensajeDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+		}
 		
-		JwtDTO jwtDTO = new JwtDTO(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+        return Autenticacion(loginUsuarioDTO.getNombreUsuario(), loginUsuarioDTO.getPassword());
 		
-		return new ResponseEntity(jwtDTO, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<Object> Autenticacion(String username, String password) {
+		
+		try {
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	        String jwt = jwtProvider.generateToken(authentication);
+	        UserDetails userDetails = (UserDetails)authentication.getPrincipal(); 
+	        JwtDTO jwtDto = new JwtDTO(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+	        return new ResponseEntity(jwtDto, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			return new ResponseEntity(new MensajeDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+		}
 
 	}
 	

@@ -8,10 +8,10 @@ import com.example.demo.security.enums.RolNombre;
 import com.example.demo.security.model.RolModel;
 import com.example.demo.security.services.RolService;
 
-//@Component
+@Component
 public class CreateRoles /*implements CommandLineRunner*/{
 
-	/*
+	
 	@Autowired
 	RolService rolService;
 	
@@ -26,7 +26,7 @@ public class CreateRoles /*implements CommandLineRunner*/{
 		rolService.save(rolUser);
 
 	}
-	 */
+	 
 	
 	
 	
