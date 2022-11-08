@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.security.model.UsuarioModel;
-import com.example.demo.security.model.UsuarioPrincipalModel;
+import com.example.demo.security.model.UserModel;
+import com.example.demo.security.model.MainUserModel;
 
 //Convierte la clase Usuario en Usuario Principal.
 //Media entre la clase Usuario y Usuario Principal.
@@ -18,15 +18,15 @@ import com.example.demo.security.model.UsuarioPrincipalModel;
 public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
-	UsuarioService usuarioService;
+	UserService userService;
 	
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		UsuarioModel usuarioModel = usuarioService.getByNombreUsuario(username).get();
+		UserModel userModel = userService.getByNombreUsuario(username).get();
 		
-		return UsuarioPrincipalModel.build(usuarioModel);
+		return MainUserModel.build(userModel);
 	}
 
 	

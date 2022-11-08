@@ -4,26 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.security.enums.RolNombre;
-import com.example.demo.security.model.RolModel;
-import com.example.demo.security.services.RolService;
+import com.example.demo.security.enums.RoleName;
+import com.example.demo.security.model.RoleModel;
+import com.example.demo.security.services.RoleService;
 
 @Component
-public class CreateRoles /*implements CommandLineRunner*/{
+public class CreateRoles implements CommandLineRunner {
 
 	
 	@Autowired
-	RolService rolService;
+	RoleService roleService;
 	
-	//@Override
+	@Override
 	public void run(String... args) throws Exception {
+
+		RoleModel rolAdmin = new RoleModel(RoleName.ROLE_ADMIN);
 		
-		RolModel rolAdmin = new RolModel(RolNombre.ROLE_ADMIN);
+		RoleModel rolUser = new RoleModel(RoleName.ROLE_USER);
 		
-		RolModel rolUser = new RolModel(RolNombre.ROLE_USER);
-		
-		rolService.save(rolAdmin);
-		rolService.save(rolUser);
+		roleService.save(rolAdmin);
+		roleService.save(rolUser);
 
 	}
 	 

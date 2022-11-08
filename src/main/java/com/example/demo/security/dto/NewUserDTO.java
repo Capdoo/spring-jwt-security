@@ -3,7 +3,7 @@ package com.example.demo.security.dto;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NuevoUsuarioDTO {
+public class NewUserDTO {
 
 	private String nombre;
 	private String nombreUsuario;

@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UsuarioPrincipalModel implements UserDetails{
+public class MainUserModel implements UserDetails{
 		
 	private String nombre;
 	private String nombreUsuario;
@@ -74,8 +74,8 @@ public class UsuarioPrincipalModel implements UserDetails{
 
 	//Se generan los constructores
 	
-	public UsuarioPrincipalModel(String nombre, String nombreUsuario, String email, String password,
-			Collection<? extends GrantedAuthority> authorities) {
+	public MainUserModel(String nombre, String nombreUsuario, String email, String password,
+						 Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.nombre = nombre;
 		this.nombreUsuario = nombreUsuario;
@@ -85,21 +85,21 @@ public class UsuarioPrincipalModel implements UserDetails{
 	}
 
 	//Se genera el método Build : Obtener usuario
-	public static UsuarioPrincipalModel build(UsuarioModel usuarioModel) {
+	public static MainUserModel build(UserModel userModel) {
 		//1. Obtener los roles
 		//2. Convertirlos a authorities
 		//(Se convierte la clase rol a la clase GrantedAuthority)
-		Set<RolModel> rolesUsuario = usuarioModel.getRoles();
+		Set<RoleModel> rolesUsuario = userModel.getRoles();
 		List<GrantedAuthority> authorities = rolesUsuario.stream().map(rol->new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());
 		
 		
 		//FormaSimplificada:
 		//List<GrantedAuthority> authorities = usuarioModel.getRoles()stream().map(rol->new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());;
 		
-		return new UsuarioPrincipalModel(usuarioModel.getNombre(),
-				usuarioModel.getNombreUsuario(),
-				usuarioModel.getEmail(), 
-				usuarioModel.getPassword(), 
+		return new MainUserModel(userModel.getNombre(),
+				userModel.getNombreUsuario(),
+				userModel.getEmail(),
+				userModel.getPassword(),
 				authorities);
 	}
 	

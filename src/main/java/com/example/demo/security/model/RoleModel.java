@@ -8,26 +8,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.example.demo.security.enums.RolNombre;
+import com.example.demo.security.enums.RoleName;
 
 @Entity
 @Table(name="roles")
-public class RolModel {
+public class RoleModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Enumerated(EnumType.STRING)
-	private RolNombre rolNombre;
+	private RoleName roleName;
 
-	public RolModel() {
+	public RoleModel() {
 		super();
 	}
 
-	public RolModel(RolNombre rolNombre) {
+	public RoleModel(RoleName roleName) {
 		super();
-		this.rolNombre = rolNombre;
+		this.roleName = roleName;
 	}
 
 	public int getId() {
@@ -38,12 +38,12 @@ public class RolModel {
 		this.id = id;
 	}
 
-	public RolNombre getRolNombre() {
-		return rolNombre;
+	public RoleName getRolNombre() {
+		return roleName;
 	}
 
-	public void setRolNombre(RolNombre rolNombre) {
-		this.rolNombre = rolNombre;
+	public void setRolNombre(RoleName roleName) {
+		this.roleName = roleName;
 	}
 	
 	

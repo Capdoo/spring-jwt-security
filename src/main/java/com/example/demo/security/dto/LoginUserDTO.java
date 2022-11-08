@@ -1,6 +1,6 @@
 package com.example.demo.security.dto;
 
-public class LoginUsuarioDTO {
+public class LoginUserDTO {
 
 	private String nombreUsuario;
 	private String password;

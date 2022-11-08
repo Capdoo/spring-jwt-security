@@ -1,6 +1,6 @@
 package com.example.demo.security.enums;
 
-public enum RolNombre {
+public enum RoleName {
 
 	ROLE_ADMIN, ROLE_USER
 }

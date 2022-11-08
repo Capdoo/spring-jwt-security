@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="usuarios")
-public class UsuarioModel {
+public class UserModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -33,13 +33,13 @@ public class UsuarioModel {
 	@ManyToMany(fetch=FetchType.EAGER)
 	
 	@JoinTable(name="usuario_roles", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_rol"))
-	private Set<RolModel> roles = new HashSet<>();
+	private Set<RoleModel> roles = new HashSet<>();
 
-	public UsuarioModel() {
+	public UserModel() {
 		super();
 	}
 
-	public UsuarioModel(String nombre, String nombreUsuario, String email, String password) {
+	public UserModel(String nombre, String nombreUsuario, String email, String password) {
 		super();
 		this.nombre = nombre;
 		this.nombreUsuario = nombreUsuario;
@@ -87,11 +87,11 @@ public class UsuarioModel {
 		this.password = password;
 	}
 
-	public Set<RolModel> getRoles() {
+	public Set<RoleModel> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<RolModel> roles) {
+	public void setRoles(Set<RoleModel> roles) {
 		this.roles = roles;
 	} 
 

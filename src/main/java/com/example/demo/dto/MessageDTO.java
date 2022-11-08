@@ -1,8 +1,8 @@
 package com.example.demo.dto;
 
-public class MensajeDTO {
+public class MessageDTO {
 
-	public MensajeDTO(String mensaje) {
+	public MessageDTO(String mensaje) {
 		super();
 		this.mensaje = mensaje;
 	}

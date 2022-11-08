@@ -1,6 +1,5 @@
 package com.example.demo.security.controllers;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,16 +19,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.MensajeDTO;
+import com.example.demo.dto.MessageDTO;
 import com.example.demo.security.dto.JwtDTO;
-import com.example.demo.security.dto.LoginUsuarioDTO;
-import com.example.demo.security.dto.NuevoUsuarioDTO;
-import com.example.demo.security.enums.RolNombre;
+import com.example.demo.security.dto.LoginUserDTO;
+import com.example.demo.security.dto.NewUserDTO;
+import com.example.demo.security.enums.RoleName;
 import com.example.demo.security.jwt.JwtProvider;
-import com.example.demo.security.model.RolModel;
-import com.example.demo.security.model.UsuarioModel;
-import com.example.demo.security.services.RolService;
-import com.example.demo.security.services.UsuarioService;
+import com.example.demo.security.model.RoleModel;
+import com.example.demo.security.model.UserModel;
+import com.example.demo.security.services.RoleService;
+import com.example.demo.security.services.UserService;
 
 @RestController
 @RequestMapping("/auth")
@@ -44,60 +43,60 @@ public class AuthController {
 	AuthenticationManager authenticationManager;
 	
 	@Autowired
-	UsuarioService usuarioService;
+	UserService userService;
 	
 	@Autowired
-	RolService rolService;
+	RoleService roleService;
 	
 	@Autowired
 	JwtProvider jwtProvider;
 	
 	@PostMapping("/nuevo")
-	public ResponseEntity<Object> nuevo(@RequestBody NuevoUsuarioDTO nuevoUsuarioDTO, BindingResult bindingResult){
+	public ResponseEntity<Object> nuevo(@RequestBody NewUserDTO newUserDTO, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity(new MensajeDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if (usuarioService.existsByNombreUsuario(nuevoUsuarioDTO.getNombreUsuario())) {
-			return new ResponseEntity(new MensajeDTO("El nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
+		if (userService.existsByNombreUsuario(newUserDTO.getNombreUsuario())) {
+			return new ResponseEntity(new MessageDTO("El nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
 	
 		}
-		if (usuarioService.existsByEmail(nuevoUsuarioDTO.getEmail())) {
-			return new ResponseEntity(new MensajeDTO("El email ya existe"), HttpStatus.BAD_REQUEST);
+		if (userService.existsByEmail(newUserDTO.getEmail())) {
+			return new ResponseEntity(new MessageDTO("El email ya existe"), HttpStatus.BAD_REQUEST);
 	
 		}
 		
-		UsuarioModel usuarioModel = new UsuarioModel(
-										nuevoUsuarioDTO.getNombre(),
-										nuevoUsuarioDTO.getNombreUsuario(),
-										nuevoUsuarioDTO.getEmail(),
-										passwordEncoder.encode(nuevoUsuarioDTO.getPassword())
+		UserModel userModel = new UserModel(
+										newUserDTO.getNombre(),
+										newUserDTO.getNombreUsuario(),
+										newUserDTO.getEmail(),
+										passwordEncoder.encode(newUserDTO.getPassword())
 									);
 		
-		Set<RolModel> roles = new HashSet<>();
-		roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
-		if (nuevoUsuarioDTO.getRoles().contains("admin")) {
-			roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
+		Set<RoleModel> roles = new HashSet<>();
+		roles.add(roleService.getByRolNombre(RoleName.ROLE_USER).get());
+		if (newUserDTO.getRoles().contains("admin")) {
+			roles.add(roleService.getByRolNombre(RoleName.ROLE_ADMIN).get());
 		}
 		
-		usuarioModel.setRoles(roles);
-		usuarioService.save(usuarioModel);
+		userModel.setRoles(roles);
+		userService.save(userModel);
 		
-		return new ResponseEntity(new MensajeDTO("Usuario guardado"), HttpStatus.CREATED);
+		return new ResponseEntity(new MessageDTO("Usuario guardado"), HttpStatus.CREATED);
 		
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestBody LoginUsuarioDTO loginUsuarioDTO, BindingResult bindingResult){
+	public ResponseEntity<Object> login(@RequestBody LoginUserDTO loginUserDTO, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity(new MensajeDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if(!(usuarioService.existsByNombreUsuario(loginUsuarioDTO.getNombreUsuario()))) {
-			return new ResponseEntity(new MensajeDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+		if(!(userService.existsByNombreUsuario(loginUserDTO.getNombreUsuario()))) {
+			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 		
-        return Autenticacion(loginUsuarioDTO.getNombreUsuario(), loginUsuarioDTO.getPassword());
+        return Autenticacion(loginUserDTO.getNombreUsuario(), loginUserDTO.getPassword());
 		
 	}
 	
@@ -112,7 +111,7 @@ public class AuthController {
 	        return new ResponseEntity(jwtDto, HttpStatus.OK);
 			
 		} catch (Exception e) {
-			return new ResponseEntity(new MensajeDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 
 	}
