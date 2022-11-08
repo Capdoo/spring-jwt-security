@@ -51,13 +51,13 @@ public class AuthController {
 	@Autowired
 	JwtProvider jwtProvider;
 	
-	@PostMapping("/nuevo")
+	@PostMapping("/register")
 	public ResponseEntity<Object> nuevo(@RequestBody NewUserDTO newUserDTO, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if (userService.existsByNombreUsuario(newUserDTO.getNombreUsuario())) {
+		if (userService.existsByUsername(newUserDTO.getNombreUsuario())) {
 			return new ResponseEntity(new MessageDTO("El nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
 	
 		}
@@ -74,9 +74,9 @@ public class AuthController {
 									);
 		
 		Set<RoleModel> roles = new HashSet<>();
-		roles.add(roleService.getByRolNombre(RoleName.ROLE_USER).get());
+		roles.add(roleService.getByRoleName(RoleName.ROLE_USER).get());
 		if (newUserDTO.getRoles().contains("admin")) {
-			roles.add(roleService.getByRolNombre(RoleName.ROLE_ADMIN).get());
+			roles.add(roleService.getByRoleName(RoleName.ROLE_ADMIN).get());
 		}
 		
 		userModel.setRoles(roles);
@@ -92,11 +92,11 @@ public class AuthController {
 			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if(!(userService.existsByNombreUsuario(loginUserDTO.getNombreUsuario()))) {
+		if(!(userService.existsByUsername(loginUserDTO.getUsername()))) {
 			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
 		}
 		
-        return Autenticacion(loginUserDTO.getNombreUsuario(), loginUserDTO.getPassword());
+        return Autenticacion(loginUserDTO.getUsername(), loginUserDTO.getPassword());
 		
 	}
 	

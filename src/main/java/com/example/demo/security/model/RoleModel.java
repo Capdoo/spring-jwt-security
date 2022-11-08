@@ -38,14 +38,11 @@ public class RoleModel {
 		this.id = id;
 	}
 
-	public RoleName getRolNombre() {
+	public RoleName getRoleName() {
 		return roleName;
 	}
 
-	public void setRolNombre(RoleName roleName) {
+	public void setRoleName(RoleName roleName) {
 		this.roleName = roleName;
 	}
-	
-	
-	
 }

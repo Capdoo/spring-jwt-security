@@ -10,8 +10,8 @@ import com.example.demo.security.model.UserModel;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer>{
 
-	Optional<UserModel> findByNombreUsuario(String nombreUsuario);
-	boolean existsByNombreUsuario(String nombreUsuario);
+	Optional<UserModel> findByUsername(String username);
+	boolean existsByUsername(String username);
 	boolean existsByEmail(String email);
 	
 }

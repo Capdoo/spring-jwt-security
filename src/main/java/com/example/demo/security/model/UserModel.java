@@ -15,16 +15,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="usuarios")
+@Table(name="users")
 public class UserModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private long id;
 	
-	private String nombre;
+	private String name;
 	
 	@Column(unique = true)
-	private String nombreUsuario;
+	private String username;
 	
 	private String email;
 	
@@ -32,43 +32,43 @@ public class UserModel {
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	
-	@JoinTable(name="usuario_roles", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_rol"))
+	@JoinTable(name="user_roles", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private Set<RoleModel> roles = new HashSet<>();
 
 	public UserModel() {
 		super();
 	}
 
-	public UserModel(String nombre, String nombreUsuario, String email, String password) {
+	public UserModel(String name, String username, String email, String password) {
 		super();
-		this.nombre = nombre;
-		this.nombreUsuario = nombreUsuario;
+		this.name = name;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getNombreUsuario() {
-		return nombreUsuario;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
@@ -93,10 +93,7 @@ public class UserModel {
 
 	public void setRoles(Set<RoleModel> roles) {
 		this.roles = roles;
-	} 
-
-	
-	
+	}
 }
 
 

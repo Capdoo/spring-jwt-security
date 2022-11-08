@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MainUserModel implements UserDetails{
 		
-	private String nombre;
-	private String nombreUsuario;
+	private String name;
+	private String username;
 	private String email;
 	private String password;
 	//Cambia roles por authorities:Spring Security
@@ -30,7 +30,7 @@ public class MainUserModel implements UserDetails{
 	}
 	@Override
 	public String getUsername() {
-		return nombreUsuario;
+		return username;
 	}
 	
 	//Solo han sido cambiados a : true
@@ -56,12 +56,12 @@ public class MainUserModel implements UserDetails{
 	}
 
 	//Personalizado : Agregado
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -74,11 +74,11 @@ public class MainUserModel implements UserDetails{
 
 	//Se generan los constructores
 	
-	public MainUserModel(String nombre, String nombreUsuario, String email, String password,
+	public MainUserModel(String name, String username, String email, String password,
 						 Collection<? extends GrantedAuthority> authorities) {
 		super();
-		this.nombre = nombre;
-		this.nombreUsuario = nombreUsuario;
+		this.name = name;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;
@@ -89,15 +89,15 @@ public class MainUserModel implements UserDetails{
 		//1. Obtener los roles
 		//2. Convertirlos a authorities
 		//(Se convierte la clase rol a la clase GrantedAuthority)
-		Set<RoleModel> rolesUsuario = userModel.getRoles();
-		List<GrantedAuthority> authorities = rolesUsuario.stream().map(rol->new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());
-		
-		
+		Set<RoleModel> rolesUser = userModel.getRoles();
+		List<GrantedAuthority> authorities = rolesUser.stream().map(rol->new SimpleGrantedAuthority(rol.getRoleName().name())).collect(Collectors.toList());
+
 		//FormaSimplificada:
 		//List<GrantedAuthority> authorities = usuarioModel.getRoles()stream().map(rol->new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());;
-		
-		return new MainUserModel(userModel.getNombre(),
-				userModel.getNombreUsuario(),
+
+
+		return new MainUserModel(userModel.getName(),
+				userModel.getUsername(),
 				userModel.getEmail(),
 				userModel.getPassword(),
 				authorities);
