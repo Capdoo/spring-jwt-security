@@ -20,18 +20,12 @@ public class UserModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
 	private String name;
-	
 	@Column(unique = true)
 	private String username;
-	
 	private String email;
-	
 	private String password;
-	
 	@ManyToMany(fetch=FetchType.EAGER)
-	
 	@JoinTable(name="user_roles", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private Set<RoleModel> roles = new HashSet<>();
 

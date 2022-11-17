@@ -20,11 +20,9 @@ import com.example.demo.security.services.UserDetailsServiceImpl;
 //Comprueba por cada petición : Validez f(provider)
 public class JwtTokenFilter extends OncePerRequestFilter{
 
-	private final static Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class); 
-	
+	private final static Logger logger = LoggerFactory.getLogger(JwtTokenFilter.class);
 	@Autowired
 	JwtProvider jwtProvider;
-	
 	@Autowired
 	UserDetailsServiceImpl userDetailsServiceImpl;	
 	
@@ -47,7 +45,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 			}
 			
 		} catch (Exception e) {
-			logger.error("Fail en el método Do-Filter");
+			logger.error("Fail in Do-Filter method");
 		}
 		filterChain.doFilter(req, res);
 	}
@@ -60,11 +58,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
+
 }
 
 

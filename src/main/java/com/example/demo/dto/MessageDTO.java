@@ -2,19 +2,18 @@ package com.example.demo.dto;
 
 public class MessageDTO {
 
-	public MessageDTO(String mensaje) {
+	public MessageDTO(String message) {
 		super();
-		this.mensaje = mensaje;
+		this.message = message;
 	}
 	
-	private String mensaje;
+	private String message;
 
-	public String getMensaje() {
-		return mensaje;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-	
 }

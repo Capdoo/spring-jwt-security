@@ -47,15 +47,15 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<Object> nuevo(@RequestBody NewUserDTO newUserDTO, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if (userService.existsByUsername(newUserDTO.getNombreUsuario())) {
-			return new ResponseEntity(new MessageDTO("El nombre de usuario ya existe"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Username already exists"), HttpStatus.BAD_REQUEST);
 	
 		}
 		if (userService.existsByEmail(newUserDTO.getEmail())) {
-			return new ResponseEntity(new MessageDTO("El email ya existe"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Email already exists"), HttpStatus.BAD_REQUEST);
 	
 		}
 		
@@ -71,29 +71,27 @@ public class AuthController {
 		if (newUserDTO.getRoles().contains("admin")) {
 			roles.add(roleService.getByRoleName(RoleName.ROLE_ADMIN).get());
 		}
-		
 		userModel.setRoles(roles);
 		userService.save(userModel);
-		
-		return new ResponseEntity(new MessageDTO("Usuario guardado"), HttpStatus.CREATED);
+		return new ResponseEntity(new MessageDTO("User registered"), HttpStatus.CREATED);
 		
 	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody LoginUserDTO loginUserDTO, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
-			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
 		
 		if(!(userService.existsByUsername(loginUserDTO.getUsername()))) {
-			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
 		
-        return Autenticacion(loginUserDTO.getUsername(), loginUserDTO.getPassword());
+        return Autentication(loginUserDTO.getUsername(), loginUserDTO.getPassword());
 		
 	}
 	
-	public ResponseEntity<Object> Autenticacion(String username, String password) {
+	public ResponseEntity<Object> Autentication(String username, String password) {
 		
 		try {
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -103,7 +101,7 @@ public class AuthController {
 	        return new ResponseEntity(jwtDto, HttpStatus.OK);
 			
 		} catch (Exception e) {
-			return new ResponseEntity(new MessageDTO("Campos mal colocados"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
 
 	}

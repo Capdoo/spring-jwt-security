@@ -10,8 +10,5 @@ import com.example.demo.security.model.RoleModel;
 
 @Repository
 public interface RoleRepository extends JpaRepository<RoleModel, Integer>{
-	
 	Optional<RoleModel> findByRoleName(RoleName roleName);
-	
-	
 }

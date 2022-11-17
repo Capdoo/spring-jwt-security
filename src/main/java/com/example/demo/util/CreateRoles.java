@@ -8,18 +8,15 @@ import com.example.demo.security.enums.RoleName;
 import com.example.demo.security.model.RoleModel;
 import com.example.demo.security.services.RoleService;
 
-@Component
+//@Component
 public class CreateRoles implements CommandLineRunner {
 
-	
 	@Autowired
 	RoleService roleService;
-	
 	@Override
 	public void run(String... args) throws Exception {
 
 		RoleModel rolAdmin = new RoleModel(RoleName.ROLE_ADMIN);
-		
 		RoleModel rolUser = new RoleModel(RoleName.ROLE_USER);
 		
 		roleService.save(rolAdmin);

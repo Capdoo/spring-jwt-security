@@ -22,7 +22,6 @@ public class RoleService {
 	public Optional<RoleModel> getByRoleName (RoleName roleName){
 		return roleRepository.findByRoleName(roleName);
 	}
-	
 	public void save(RoleModel roleModel) {
 		roleRepository.save(roleModel);
 	}
