@@ -1,9 +1,14 @@
 package com.example.demo.security.jwt;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.demo.security.dto.JwtDTO;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.JWTParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +48,7 @@ public class JwtProvider {
 				.setSubject(usuarioPrincipal.getUsername())
 				.claim("roles", roles)
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(new Date().getTime() + expiration*1000))
+				.setExpiration(new Date(new Date().getTime() + expiration))
 				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
 				.compact();
 	}
@@ -78,8 +83,21 @@ public class JwtProvider {
 		}
 		return false;
 	}
-	
-	
+
+	public String refreshToken(JwtDTO jwtDTO) throws ParseException {
+		JWT jwt = JWTParser.parse(jwtDTO.getToken());
+		JWTClaimsSet claims = jwt.getJWTClaimsSet();
+		String nombreUsuario = claims.getSubject();
+		List<String> roles = (List<String>) claims.getClaim("roles");
+
+		return Jwts.builder()
+				.setSubject(nombreUsuario)
+				.claim("roles", roles)
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(new Date().getTime() + expiration))
+				.signWith(SignatureAlgorithm.HS512, secret.getBytes())
+				.compact();
+	}
 }
 
 

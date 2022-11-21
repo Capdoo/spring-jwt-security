@@ -15,7 +15,6 @@ import com.example.demo.security.repositories.RoleRepository;
 @Transactional
 
 public class RoleService {
-
 	@Autowired
 	RoleRepository roleRepository;
 	

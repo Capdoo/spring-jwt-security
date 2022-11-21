@@ -1,5 +1,6 @@
 package com.example.demo.security.controllers;
 
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public class AuthController {
 			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if (userService.existsByUsername(newUserDTO.getNombreUsuario())) {
+		if (userService.existsByUsername(newUserDTO.getUsername())) {
 			return new ResponseEntity(new MessageDTO("Username already exists"), HttpStatus.BAD_REQUEST);
 	
 		}
@@ -60,8 +61,8 @@ public class AuthController {
 		}
 		
 		UserModel userModel = new UserModel(
-										newUserDTO.getNombre(),
-										newUserDTO.getNombreUsuario(),
+										newUserDTO.getName(),
+										newUserDTO.getUsername(),
 										newUserDTO.getEmail(),
 										passwordEncoder.encode(newUserDTO.getPassword())
 									);
@@ -83,11 +84,11 @@ public class AuthController {
 			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
 		
-		if(!(userService.existsByUsername(loginUserDTO.getUsername()))) {
+		if(!(userService.existsByUsernameOrEmail(loginUserDTO.getUsernameOrEmail()))) {
 			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
 		
-        return Autentication(loginUserDTO.getUsername(), loginUserDTO.getPassword());
+        return Autentication(loginUserDTO.getUsernameOrEmail(), loginUserDTO.getPassword());
 		
 	}
 	
@@ -103,7 +104,18 @@ public class AuthController {
 		} catch (Exception e) {
 			return new ResponseEntity(new MessageDTO("Wrong fields"), HttpStatus.BAD_REQUEST);
 		}
+	}
 
+	@PostMapping("/refresh")
+	public ResponseEntity<Object> refreshToken(@RequestBody JwtDTO jwtDTO) throws ParseException {
+		try {
+			String token = jwtProvider.refreshToken(jwtDTO);
+			JwtDTO jwt = new JwtDTO(token);
+			return new ResponseEntity<Object>(jwt, HttpStatus.OK);
+
+		}catch (Exception e){
+			return new ResponseEntity<Object>(new MessageDTO(e.getMessage()), HttpStatus.OK);
+		}
 	}
 	
 	

@@ -16,18 +16,13 @@ import com.example.demo.security.model.MainUserModel;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
-
 	@Autowired
 	UserService userService;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		UserModel userModel = userService.getByUsername(username).get();
-		
+		UserModel userModel = userService.getByUsernameOrEmail(usernameOrEmail).get();
 		return MainUserModel.build(userModel);
 	}
-
-	
-	
 }

@@ -21,8 +21,15 @@ public class UserService {
 	public Optional<UserModel> getByUsername(String username){
 		return userRepository.findByUsername(username);
 	}
+
+	public Optional<UserModel> getByUsernameOrEmail(String usernameOrEmail){
+		return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+	}
 	public boolean existsByUsername(String username) {
 		return userRepository.existsByUsername(username);
+	}
+	public boolean existsByUsernameOrEmail(String usernameOrEmail) {
+		return userRepository.existsByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
 	}
 	public boolean existsByEmail(String email) {
 		return userRepository.existsByEmail(email);
@@ -30,7 +37,6 @@ public class UserService {
 	public void save(UserModel userModel) {
 		userRepository.save(userModel);
 	}
-	
 }
 
 

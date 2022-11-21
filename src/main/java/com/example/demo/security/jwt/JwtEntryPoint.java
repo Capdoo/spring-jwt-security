@@ -25,7 +25,4 @@ public class JwtEntryPoint implements AuthenticationEntryPoint{
 			logger.error("Fail in commence method");
 			res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorized");
 	}
-
-	
-	
 }
