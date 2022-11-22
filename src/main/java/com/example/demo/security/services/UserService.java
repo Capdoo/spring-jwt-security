@@ -25,6 +25,11 @@ public class UserService {
 	public Optional<UserModel> getByUsernameOrEmail(String usernameOrEmail){
 		return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
 	}
+
+	public Optional<UserModel> getByTokenPassword(String tokenPassword){
+		return userRepository.findByTokenPassword(tokenPassword);
+	}
+
 	public boolean existsByUsername(String username) {
 		return userRepository.existsByUsername(username);
 	}

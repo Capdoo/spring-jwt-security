@@ -11,6 +11,7 @@ import com.example.demo.security.model.UserModel;
 public interface UserRepository extends JpaRepository<UserModel, Integer>{
 	Optional<UserModel> findByUsername(String username);
 	Optional<UserModel> findByUsernameOrEmail(String username, String email);
+	Optional<UserModel> findByTokenPassword(String tokenPassword);
 	boolean existsByUsername(String username);
 	boolean existsByUsernameOrEmail(String username, String email);
 	boolean existsByEmail(String email);

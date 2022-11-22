@@ -25,6 +25,8 @@ public class UserModel {
 	private String username;
 	private String email;
 	private String password;
+	@Column(name="token_password")
+	private String tokenPassword;
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="user_roles", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
 	private Set<RoleModel> roles = new HashSet<>();
@@ -87,6 +89,14 @@ public class UserModel {
 
 	public void setRoles(Set<RoleModel> roles) {
 		this.roles = roles;
+	}
+
+	public String getTokenPassword() {
+		return tokenPassword;
+	}
+
+	public void setTokenPassword(String tokenPassword) {
+		this.tokenPassword = tokenPassword;
 	}
 }
 
