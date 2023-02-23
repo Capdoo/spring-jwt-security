@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.security.enums.RoleName;
-import com.example.demo.security.model.RoleModel;
+import com.example.demo.security.model.RoleEntity;
 import com.example.demo.security.repositories.RoleRepository;
 
 @Service
@@ -18,10 +18,10 @@ public class RoleService {
 	@Autowired
 	RoleRepository roleRepository;
 	
-	public Optional<RoleModel> getByRoleName (RoleName roleName){
-		return roleRepository.findByRoleName(roleName);
+	public RoleEntity getByRoleName (RoleName roleName){
+		return roleRepository.findByRoleName(roleName).orElse(null);
 	}
-	public void save(RoleModel roleModel) {
-		roleRepository.save(roleModel);
+	public void save(RoleEntity roleEntity) {
+		roleRepository.save(roleEntity);
 	}
 }

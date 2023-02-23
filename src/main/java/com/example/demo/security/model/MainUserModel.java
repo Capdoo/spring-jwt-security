@@ -73,7 +73,6 @@ public class MainUserModel implements UserDetails{
 	}
 
 	//Se generan los constructores
-	
 	public MainUserModel(String name, String username, String email, String password,
 						 Collection<? extends GrantedAuthority> authorities) {
 		super();
@@ -85,21 +84,19 @@ public class MainUserModel implements UserDetails{
 	}
 
 	//Se genera el método Build : Obtener usuario
-	public static MainUserModel build(UserModel userModel) {
+	public static MainUserModel build(UserEntity userEntity) {
 		//1. Obtener los roles
 		//2. Convertirlos a authorities
 		//(Se convierte la clase rol a la clase GrantedAuthority)
-		Set<RoleModel> rolesUser = userModel.getRoles();
-		List<GrantedAuthority> authorities = rolesUser.stream().map(rol->new SimpleGrantedAuthority(rol.getRoleName().name())).collect(Collectors.toList());
+		Set<RoleEntity> rolesUser = userEntity.getRoles();
+		List<GrantedAuthority> authorities = rolesUser.stream()
+				.map(rol->new SimpleGrantedAuthority(rol.getRoleName().name()))
+				.collect(Collectors.toList());
 
-		//FormaSimplificada:
-		//List<GrantedAuthority> authorities = usuarioModel.getRoles()stream().map(rol->new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());;
-
-
-		return new MainUserModel(userModel.getName(),
-				userModel.getUsername(),
-				userModel.getEmail(),
-				userModel.getPassword(),
+		return new MainUserModel(userEntity.getName(),
+				userEntity.getUsername(),
+				userEntity.getEmail(),
+				userEntity.getPassword(),
 				authorities);
 	}
 	

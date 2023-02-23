@@ -1,56 +1,28 @@
 package com.example.demo.security.services;
 
-import java.util.Optional;
+import com.example.demo.security.dto.UserDTO;
+import com.example.demo.security.model.UserEntity;
+import org.springframework.security.core.parameters.P;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public interface UserService {
 
-import com.example.demo.security.model.UserModel;
-import com.example.demo.security.repositories.UserRepository;
+    public List<UserEntity> listAllUsers();
+    public UserEntity createUser(UserDTO userDTO);
+    public UserEntity readUser(Long id);
+    public UserEntity updateUser(UserDTO userDTO);
+    public UserEntity deleteUser(UserDTO userDTO);
+    public Boolean existsById(Long id);
 
-@Service
-//Para implementar rollbacks y evitar incoherencia : Concurrencia
-@Transactional
-public class UserService {
+    //
+    public UserEntity readByUsernameOrEmail(String usernameOrEmail);
+    public UserEntity readByTokenPassword(String tokenPassword);
 
-	@Autowired
-	UserRepository userRepository;
-	
-	public Optional<UserModel> getByUsername(String username){
-		return userRepository.findByUsername(username);
-	}
+    //
+    public Boolean existsByUsername(String username);
+    public Boolean existsByUsernameOrEmail(String usernameOrEmail);
+    public Boolean existsByEmail(String email);
 
-	public Optional<UserModel> getByUsernameOrEmail(String usernameOrEmail){
-		return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
-	}
 
-	public Optional<UserModel> getByTokenPassword(String tokenPassword){
-		return userRepository.findByTokenPassword(tokenPassword);
-	}
-
-	public boolean existsByUsername(String username) {
-		return userRepository.existsByUsername(username);
-	}
-	public boolean existsByUsernameOrEmail(String usernameOrEmail) {
-		return userRepository.existsByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
-	}
-	public boolean existsByEmail(String email) {
-		return userRepository.existsByEmail(email);
-	}
-	public void save(UserModel userModel) {
-		userRepository.save(userModel);
-	}
 }
-
-
-
-
-
-
-
-
-
-
-

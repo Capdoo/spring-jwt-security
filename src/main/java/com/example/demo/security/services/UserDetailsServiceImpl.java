@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.security.model.UserModel;
+import com.example.demo.security.model.UserEntity;
 import com.example.demo.security.model.MainUserModel;
 
 //Convierte la clase Usuario en Usuario Principal.
@@ -17,12 +17,12 @@ import com.example.demo.security.model.MainUserModel;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 	@Autowired
-	UserService userService;
+	UserServiceImpl userServiceImpl;
 
 	@Override
 	public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		UserModel userModel = userService.getByUsernameOrEmail(usernameOrEmail).get();
-		return MainUserModel.build(userModel);
+		UserEntity userEntity = userServiceImpl.readByUsernameOrEmail(usernameOrEmail);
+		return MainUserModel.build(userEntity);
 	}
 }
